@@ -118,9 +118,14 @@ func main() {
 		age:    12,
 		salary: 2500.55,
 		role:   "manager",
+		dept:   Dept{name: "Sales"},
+		task:   task{name: "sell", duration: "6H"},
 	}
 	printMe(emp.toString())
-	printMe(emp.toString())
+	fmt.Println(emp.dept.name)
+	fmt.Println(emp.task.name)
+	fmt.Println(emp.task.duration)
+	fmt.Println(emp.duration) // since task is sub strauct we can call its attribute directly from employee
 
 	for k, v := range map3 {
 		fmt.Println("print by KV", k, v)
@@ -136,12 +141,28 @@ func main() {
 	}
 	// using index directly may not be correct if there is non asci charters!
 
-	var strSlice = []string{"a", "b", "c", "d", "e", "f", "g"}
 	var strCat = "a"
 	strCat += "b" // each concate is a new string and re-assign opeation
 	strCat += "c"
 	// str is immutable so we can not change a or b or c
-	// else we can
+	// else we can  use StringBuilder package
+
+	var strBuilder = strings.Builder{}
+	strBuilder.WriteString("append 1\n")
+	strBuilder.WriteString("append 2\n")
+	for i := 3; i <= 5; i++ {
+		strBuilder.WriteString(
+			fmt.Sprintf("append %d\n", i)) // build the string
+	}
+	var finalStr = strBuilder.String() // convert to string
+	/**
+	append 1
+	append 2
+	append 3
+	append 4
+	append 5
+	*/
+	fmt.Println(finalStr)
 
 }
 
@@ -151,6 +172,16 @@ type Employee struct {
 	role       string
 	salary     float32
 	dateJoined string
+	dept       Dept
+	task       // the name is task of type task
+}
+
+type Dept struct {
+	name string
+}
+type task struct {
+	name     string
+	duration string
 }
 
 func (em Employee) toString() string {
